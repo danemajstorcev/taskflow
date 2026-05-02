@@ -35,7 +35,7 @@ export default function Sidebar({ navItems, onNavClick }: Props) {
           <span className="font-display font-bold text-white text-xs">TF</span>
         </div>
         <span
-          className="font-display font-bold text-base"
+          className="font-display font-bold text-base text-base"
           style={{ color: "var(--text)" }}
         >
           TaskFlow
