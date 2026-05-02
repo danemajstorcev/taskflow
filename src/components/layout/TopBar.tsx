@@ -1,41 +1,84 @@
-import { useAppDispatch, useAppSelector } from '@/hooks';
-import { toggleSidebar } from '@/store/slices/uiSlice';
-import { setSearch } from '@/store/slices/filtersSlice';
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { setSearch } from "@/store/slices/filtersSlice";
+import { toggleTheme } from "@/store/slices/uiSlice";
 
-interface Props { title: string }
+interface Props {
+  onMenuOpen: () => void;
+}
 
-export default function TopBar({ title }: Props) {
+export default function TopBar({ onMenuOpen }: Props) {
   const dispatch = useAppDispatch();
-  const search   = useAppSelector((s) => s.filters.search);
-  const open     = useAppSelector((s) => s.ui.sidebarOpen);
+  const search = useAppSelector((s) => s.filters.search);
+  const theme = useAppSelector((s) => s.ui.theme);
 
   return (
-    <header className="h-14 flex items-center gap-4 px-4 sm:px-6 border-b border-slate-800 bg-slate-900/80 dark:bg-slate-950/80 backdrop-blur sticky top-0 z-30">
+    <header className="h-14 flex items-center gap-3 px-4 border-b border-base bg-surface flex-shrink-0">
       <button
-        onClick={() => dispatch(toggleSidebar())}
-        className="md:hidden text-slate-400 hover:text-white transition-colors"
+        onClick={onMenuOpen}
+        className="md:hidden text-sub hover:text-base transition-colors p-1"
+        aria-label="Menu"
       >
-        ☰
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={1.5}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+          />
+        </svg>
       </button>
 
-      <h1 className="font-display font-semibold text-white text-base sm:text-lg flex-shrink-0">
-        {title}
-      </h1>
+      <div className="md:hidden flex items-center gap-2">
+        <div
+          className="w-6 h-6 flex items-center justify-center"
+          style={{ background: "var(--accent)" }}
+        >
+          <span className="font-display font-bold text-white text-[10px]">
+            TF
+          </span>
+        </div>
+        <span className="font-display font-bold text-sm text-base">
+          TaskFlow
+        </span>
+      </div>
 
-      <div className="flex-1" />
-
-      <div className="relative hidden sm:block w-52 lg:w-72">
-        <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      <div className="hidden sm:flex flex-1 max-w-sm relative">
+        <svg
+          className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
         </svg>
         <input
           type="text"
           placeholder="Search tasks…"
           value={search}
           onChange={(e) => dispatch(setSearch(e.target.value))}
-          className="w-full bg-slate-800 border border-slate-700 rounded-lg text-sm text-white pl-8 pr-3 py-1.5 focus:outline-none focus:border-indigo-500 placeholder:text-slate-500"
+          className="w-full pl-8 pr-3 py-1.5 text-sm bg-base border border-base focus:outline-none focus:border-base2 transition-colors font-mono placeholder:text-muted text-base"
         />
       </div>
+
+      <div className="flex-1 hidden sm:block" />
+
+      <button
+        onClick={() => dispatch(toggleTheme())}
+        className="p-2 text-sub hover:text-base transition-colors text-sm"
+        title={theme === "dark" ? "Light mode" : "Dark mode"}
+      >
+        {theme === "dark" ? "☀" : "◐"}
+      </button>
     </header>
   );
 }

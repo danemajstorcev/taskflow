@@ -1,19 +1,14 @@
-/** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html','./src/**/*.{ts,tsx}'],
-  darkMode: 'class',
+  content: ["./index.html", "./src*.{ts,tsx}"],
+  darkMode: "class",
   theme: {
     extend: {
       fontFamily: {
-        display: ["'Space Grotesk'", 'sans-serif'],
-        body:    ["'IBM Plex Sans'", 'sans-serif'],
+        display: ["'Syne'", "sans-serif"],
+        body: ["'Inter'", "sans-serif"],
+        mono: ["'DM Mono'", "monospace"],
       },
-      colors: {
-        violet: {
-          950: '#1e0a3c',
-        }
-      }
-    }
+    },
   },
-  plugins: []
-}
+  plugins: [],
+};
